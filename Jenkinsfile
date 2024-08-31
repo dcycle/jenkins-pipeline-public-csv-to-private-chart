@@ -16,11 +16,6 @@ pipeline {
                 ]
             }
             post {
-                success {
-                    sh 'ls -lah build'
-                    archiveArtifacts artifacts: '**/*.csv'
-                    stash name: 'mystash'
-                }
                 failure {
                     script {
                         error 'Failed, exiting now...'
@@ -36,7 +31,7 @@ pipeline {
         stage('Publishes the CSV to a private repo') {
             steps {
                 unstash 'mystash'
-                sh 'ls -lah'
+                sh 'cat /var/jenkins_home/google-sheets-to-csv-public/export.csv'
                 echo 'Publishes the CSV to a private repo..'
             }
         }
