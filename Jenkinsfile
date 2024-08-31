@@ -17,7 +17,7 @@ pipeline {
             }
             post {
                 success {
-                    sh 'ls -lah **'
+                    sh 'ls -lah build'
                     archiveArtifacts artifacts: '**/*.csv'
                     stash name: 'mystash'
                 }
