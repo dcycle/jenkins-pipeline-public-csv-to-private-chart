@@ -14,7 +14,7 @@ pipeline {
                         value: params.GOOGLE_SHEETS_SHEET_ID
                     )
                 ]
-                stash(name: mystash)
+                stash(name: 'mystash')
             }
             post {
                 failure {
