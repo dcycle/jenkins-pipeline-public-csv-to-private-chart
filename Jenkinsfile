@@ -7,11 +7,11 @@ pipeline {
                 build job: 'google-sheets-to-csv-public', parameters: [
                     string(
                         name: 'GOOGLE_SHEETS_SPREADSHEET_ID',
-                        params.GOOGLE_SHEETS_SPREADSHEET_ID
+                        value: params.GOOGLE_SHEETS_SPREADSHEET_ID
                     ),
                     string(
                         name: 'GOOGLE_SHEETS_SHEET_ID',
-                        params.GOOGLE_SHEETS_SHEET_ID
+                        value: params.GOOGLE_SHEETS_SHEET_ID
                     )
                 ]
             }
