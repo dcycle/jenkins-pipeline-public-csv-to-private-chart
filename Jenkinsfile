@@ -30,7 +30,6 @@ pipeline {
         }
         stage('Publishes the CSV to a private repo') {
             steps {
-                unstash 'mystash'
                 sh 'cat /var/jenkins_home/google-sheets-to-csv-public/export.csv'
                 echo 'Publishes the CSV to a private repo..'
             }
