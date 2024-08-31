@@ -14,7 +14,8 @@ pipeline {
                         value: params.GOOGLE_SHEETS_SHEET_ID
                     )
                 ]
-                stash includes: '**/target/*.csv', name: 'mystash'
+                archiveArtifacts artifacts: '**/*.csv'
+                stash name: 'mystash'
             }
             post {
                 failure {
