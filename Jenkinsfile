@@ -14,6 +14,7 @@ pipeline {
                         value: params.GOOGLE_SHEETS_SHEET_ID
                     )
                 ]
+                stash(name: mystash)
             }
             post {
                 failure {
@@ -29,6 +30,8 @@ pipeline {
             }
         }
         stage('Publishes the CSV to a private repo') {
+            unstash 'mystash'
+            sh 'ls -lah'
             steps {
                 echo 'Publishes the CSV to a private repo..'
             }
