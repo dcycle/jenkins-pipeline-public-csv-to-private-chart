@@ -62,6 +62,7 @@ In Post-build actions, select "Archive the artifacts" and choose the file "expor
 ```
 GOOGLE_SHEETS_SPREADSHEET_ID=abc123
 GOOGLE_SHEETS_SHEET_ID=mySheet
+CSV_FILE_LOCATION=/var/jenkins_home/workspace/google-sheets-to-csv-public/export.csv
 ```
 
 Linting
