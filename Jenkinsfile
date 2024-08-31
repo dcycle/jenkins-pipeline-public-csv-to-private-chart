@@ -30,9 +30,9 @@ pipeline {
             }
         }
         stage('Publishes the CSV to a private repo') {
-            unstash 'mystash'
-            sh 'ls -lah'
             steps {
+                unstash 'mystash'
+                sh 'ls -lah'
                 echo 'Publishes the CSV to a private repo..'
             }
         }
