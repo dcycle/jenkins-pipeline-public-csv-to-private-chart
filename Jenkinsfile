@@ -14,6 +14,7 @@ pipeline {
                         value: params.GOOGLE_SHEETS_SHEET_ID
                     )
                 ]
+                sh 'ls -lah'
                 archiveArtifacts artifacts: '**/*.csv'
                 stash name: 'mystash'
             }
