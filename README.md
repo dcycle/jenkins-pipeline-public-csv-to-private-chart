@@ -25,6 +25,8 @@ Parametrize it with:
 
 * GOOGLE_SHEETS_SHEET_ID (for example mySheet)
 * GOOGLE_SHEETS_SPREADSHEET_ID (for example abc123)
+* CSV_FILE_LOCATION (for example /var/jenkins_home/workspace/google-sheets-to-csv-public/export.csv)
+* CSV_FILENAME (for example export.csv)
 
 In source code management, use the master branch of https://github.com/dcycle/google-sheets-to-csv.git.
 
@@ -40,11 +42,11 @@ In Build Steps, enter:
        "$GOOGLE_SHEETS_API_KEY" \
        "$GOOGLE_SHEETS_SPREADSHEET_ID" \
        "$GOOGLE_SHEETS_SHEET_ID" \
-       ./app/unversioned/scripts/data.csv
+       "$CSV_FILENAME"
 
 This will get the file as "export.csv" (*not* data.csv!) as export.csv is hard-coded in ./scripts/jenkins/fetch-google-sheets.sh.
 
-In Post-build actions, select "Archive the artifacts" and choose the file "export.csv".
+In Post-build actions, select "Archive the artifacts" and enter "*.csv".
 
 ### Make the main pipeline job, which is parametrized
 
@@ -63,12 +65,13 @@ In Post-build actions, select "Archive the artifacts" and choose the file "expor
 GOOGLE_SHEETS_SPREADSHEET_ID=abc123
 GOOGLE_SHEETS_SHEET_ID=mySheet
 CSV_FILE_LOCATION=/var/jenkins_home/workspace/google-sheets-to-csv-public/export.csv
+CSV_FILENAME=export.csv
 ```
 
 Linting
 -----
 
-You can lint this locally using:
+You can lint the Jenkinsfile herein locally using:
 
     npm install -g npm-groovy-lint
     npm-groovy-lint Jenkinsfile
