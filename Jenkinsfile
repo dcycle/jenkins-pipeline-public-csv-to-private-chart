@@ -32,30 +32,29 @@ pipeline {
                 }
             }
         }
-        stage('Publishes the CSV to a private repo') {
+        stage('Publishes the CSV to a repo') {
             steps {
-                // Yes, I know, I can stash/unstash, but after a few hours I
-                // simply cannot get it to work, so I'm fetching the
-                // CSV_FILE_LOCATION directly.
-                sh "cat ${params.CSV_FILE_LOCATION}"
-                echo 'Publishes the CSV to a private repo..'
-            }
-            post {
-                failure {
-                    script {
-                        error 'Failed, exiting now...'
-                    }
-                }
-                unstable {
-                    script {
-                        error 'Unstable, exiting now...'
-                    }
-                }
-            }
-        }
-        stage('Updates server with new CSV') {
-            steps {
-                echo 'Updates server with new CSV....'
+                build job: 'publish-file-to-repo', parameters: [
+                    string(
+                        // Yes, I know, I can stash/unstash, but after a few
+                        // hours I simply cannot get it to work, so I'm
+                        // fetching the CSV_FILE_LOCATION directly.
+                        name: 'FILE_LOCATION',
+                        value: params.CSV_FILE_LOCATION
+                    ),
+                    string(
+                        name: 'GIT_REPO',
+                        value: params.MY_REPO
+                    ),
+                    string(
+                        name: 'MY_REPO_DEPLOY_KEY',
+                        value: params.MY_REPO_DEPLOY_KEY
+                    ),
+                    string(
+                        name: 'MY_REPO_LOCATION',
+                        value: params.MY_REPO_LOCATION
+                    ),
+                ]
             }
             post {
                 failure {
