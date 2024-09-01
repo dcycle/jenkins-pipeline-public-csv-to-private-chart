@@ -37,7 +37,16 @@ Now, /Users/me/.ssh/temp.pub will contain the public key, and /Users/me/.ssh/tem
 
 In the GitHub interface for the repo, go to settings > deploy keys, and add a new deploy key with the title Jenkins, the contents of your public key, and allow write access.
 
-In Jenkins credentials, add a credential of type "Secret file", call it MY_REPO_DEPLOY_KEY; put the username git, and add your private key (you might first have to copy it to your ~/Desktop folder or the file manager won't see it because .ssh is hidden).
+In Jenkins credentials, add a credential of type "Secret text", call it MY_REPO_DEPLOY_KEY; put the contents of your private key by removing the prefix and suffix, and putting semicolons instead of newlines. For example, if your private SSH key looks like:
+
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    abc123
+    xyz789
+    -----END OPENSSH PRIVATE KEY-----
+
+You should put:
+
+    abc123;xyz789
 
 ### Create the google-sheets-to-csv-public job
 
@@ -73,9 +82,9 @@ In Post-build actions, select "Archive the artifacts" and enter "*.csv".
 * Create a Jenkins job called publish-file-to-repo
 * In Source code management, select git and https://github.com/dcycle/publish-file-to-repo.git
 * Select "This project is parameterized" and add the following string parameters:
-  * GIT_REPO (for example git@github.com:alberto56/beh-indicateurs.git)
+  * GIT_REPO (for example git@github.com:something/something.git)
   * FILE_LOCATION (for example /var/jenkins_home/workspace/google-sheets-to-csv-public/export.csv)
-  * MY_REPO_DEPLOY_KEY (a location to a private key) (note that this is a string, not a file)
+  * MY_REPO_DEPLOY_KEY (the contents of the private key) (note that this is a string containing the contents of the private key, not a file)
   * MY_REPO_LOCATION (for example ./path/to/file/in/repo)
 * In Build steps, select Execute shell and put `./scripts/publish-file-to-repo.sh`.
 
@@ -86,8 +95,8 @@ In Post-build actions, select "Archive the artifacts" and enter "*.csv".
 * Make the project parametrized, with the following string parameters:
   * GOOGLE_SHEETS_SPREADSHEET_ID (for example abc123)
   * GOOGLE_SHEETS_SHEET_ID (for example mySheet)
-  * MY_REPO_DEPLOY_KEY (a location to a private key) (note that this is a string, not a file)
-  * MY_REPO (for example git@github.com:alberto56/beh-indicateurs.git)
+  * MY_REPO_DEPLOY_KEY (the contents of the private key) (note that this is a string containing the contents of the private key, not a file)
+  * MY_REPO (for example git@github.com:something/something.git)
   * MY_REPO_LOCATION (for example ./path/to/file/in/repo)
 
 ### Make a trigger job, which is built periodically and not parametrized
@@ -104,7 +113,7 @@ GOOGLE_SHEETS_SHEET_ID=mySheet
 CSV_FILE_LOCATION=/var/jenkins_home/workspace/google-sheets-to-csv-public/export.csv
 CSV_FILENAME=export.csv
 MY_REPO_DEPLOY_KEY=$MY_REPO_DEPLOY_KEY
-MY_REPO=git@github.com:alberto56/beh-indicateurs.git
+MY_REPO=git@github.com:something/something.git
 MY_REPO_LOCATION=./path/to/file/in/repo
 ```
 
